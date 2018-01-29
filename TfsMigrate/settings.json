@@ -1,0 +1,307 @@
+﻿{
+  //Global settings
+  "Global": {
+    "Debug": true,
+
+    "OutputPath": "C:\\Temp",
+
+    "SourceCollectionUrl": "https://mytfs:8080/DefaultCollection",
+    "SourceUser": "user name of someone with permissions to TFS",
+    "SourceAccessToken": "personal access token of user in TFS",
+    "SourceProject": "SourceProject",
+
+    "TargetCollectionUrl": "https://account.visualstudio.com",
+    "TargetAccessToken": "personal access token of user in VSTS",
+    "TargetProject": "TargetProject"
+  },
+
+  //
+  // Build definition
+  //    XAML not supported
+  //    Does not fix up any referenced source paths, that has to be done manually
+  //    Does not schedule any builds because source paths need to be fixed
+  "BuildManagement": {
+
+    //True to copy the custom build templates that are defined
+    "CopyTemplates": true,
+
+    //True to overwrite any existing definition
+    "Overwrite": true,
+
+    //The target agent queue to use
+    "TargetAgentQueue": "Hosted VS2017",
+
+    //A list of build definitions to exclude from migration
+    "ExcludeDefinitions": [],
+
+    //Maps task group Ids from source to target because the API does not expose this as an option yet
+    "TaskGroups": [
+      {        
+        "sourceGroupid": "10434ce0-8d5e-4447-97ec-906cebf605ca",
+        "targetGroupId": "28703595-4c96-4c0e-abd0-8216cd2aa528"
+      }
+    ]
+  },
+
+  //
+  // Package management
+  //    Only supports 1 source and target feed
+  "PackageManagement": {
+
+    "NuGetCommandLine": "C:\\NuGet\\Nuget.exe",
+
+    "SourceUrl": "https://mytfs:8080/DefaultCollection",
+    "SourceFeed": "SourceProject",
+
+    "TargetUrl": "https://account.feeds.visualstudio.com",
+    "TargetFeed": "TargetFeed",
+    "TargetPackageSource": "LocalNuGetSourceName",
+
+    //If set then existing packages are overwritten - not implemented
+    //"OverwritePackages": false,
+
+    //Set to true to incclude unlisted versions of packages
+    "includeDelistedVersions": false,
+
+    //Set to true to migrate only the latest version of a package
+    "latestVersionOnly": false,
+
+    //A list of packages to exclude from the migration
+    "excludePackages": [
+      "MyObsoletePackage"
+    ]
+  },
+
+  //
+  // Queries
+  "QueryManagement": {
+
+    //True to overwrite existing queries
+    "Overwrite": true,
+
+    //List of queries to exclude (only shared queries are allowed)
+    "ExcludeQueries": [
+      "Old Query"
+    ]
+  },
+
+  //
+  // Version control
+  "VersionControl": {
+    //The master branch to create for each project
+    "GitMasterBranch": "master",
+
+    //For projects with releases, the branch to create for the release
+    "GitReleaseBranch": "release/{major}.{minor}",
+
+    //Path to Git, need to ensure the current user is configured to use it to commit changes
+    "GitCommandLine": "C:\\Program Files\\Git\\bin\\git.exe",
+
+    //When a project supports branches, the baseline, dev and releases folders where the branches reside
+    "BaselineBranch": "Trunk",
+    "DevelopmentBranch": "Dev",
+    "ReleaseBranch": "Releases",
+
+    //If specified, the structured defined in this path will be copied over any project files before commiting the repository
+    "TemplatePath": "template",
+
+    //The file to update with the migration metadata
+    "MetadataFile": "readme.md",
+
+    //The folders to remove from the TFS project before committing
+    "CleanFolders": [
+      "packages",
+      "bin",
+      "obj",
+      ".vs",
+      "TestResults",
+      "node_modules"
+    ],
+
+    //The files to remove from the TFS project before committing
+    "CleanFiles": [
+      ".gitignore",
+      ".gitattributes",
+      "readme.md",
+      ".tfignore",
+      "*.suo",
+      "*.user",
+      "nuget.exe"
+    ],
+
+    //If true then the local repo is removed after a successful commit, reduces the amount of storage space required
+    "CleanAfterCommit": true,
+
+    //The projects to migrate
+    "Projects": [
+
+      {
+        "sourcePath": "$/MyTfs/MyProjectFolder",
+        "hasBranches": true,
+
+        "destinationProject": "TargetProject",
+        "destinationPath": "my-project"
+      }
+    ]
+  },
+
+  //
+  // Work Items
+  "WorkItemTracking": {
+
+    // The areas to migrate
+    //    SourcePath : the source path
+    //    DestinationPath : the target path or empty to use the source path
+    "Areas": [
+      {
+        "SourcePath": "MyTfs/MyProject"
+		//"DestinationPath": "MyTfs/NewProject"
+      }      
+    ],
+
+    // The iterations to migrate
+    //    SourcePath: the source path
+    //    DestinationPath: the optional target path (default: the source path)
+    "Iterations": [
+      {
+        "SourcePath": "MyTfs/Backlog"
+      }
+    ],
+
+    // Defines the mappings between the source user names and the target user names so that user fields are properly migrated
+    "users": [
+      {
+        "source": "myad\myuser",
+        "target": "User Name <user@mydomain.com>"
+      }
+    ],
+
+    // If set to true (the default) then all fields are migrated unless ignored in the "fields" list below. If false then
+    // only the fields identified in "fields" below are included.
+    "includeAllFields": true,
+
+    // Defines the mappings of work item fields
+    //   Name: The name in the source
+    //   TargetName: The optional name in the target (default is the source name)
+    //   Value: The value of the field calculated using dynamic expressions. A single 'value' parameter is passed as an object
+    //            (default is the original value)
+    //   Ignore: Set to true to ignore the field (when includeAllFields is true)
+    //   IsUser: Set to true to apply user migration logic to the field (assumes format of: display <username>
+    //   Handler: The name of a custom handler to use (must be coded to support it)
+    "fields": [
+
+      //Special cases
+      {
+        "name": "System.AreaPath",
+        "handler": "TfsMigrate.Processors.WorkItemTracking.FieldHandlers.AreaFieldHandler,TfsMigrate.Processors.WorkItemTracking"
+      },
+      {
+        "name": "System.IterationPath",
+        "handler": "TfsMigrate.Processors.WorkItemTracking.FieldHandlers.IterationFieldHandler,TfsMigrate.Processors.WorkItemTracking"
+      },
+
+      //Ignore these
+      {
+        "name": "System.AreaId",
+        "ignore": true
+      },
+      {
+        "name": "System.AreaLevel1",
+        "ignore": true
+      },
+      {
+        "name": "System.AreaLevel2",
+        "ignore": true
+      },
+      {
+        "name": "System.AssignedTo",
+        "isUser": true
+      },
+      {
+        "name": "System.BoardColumn",
+        "ignore": true
+      },
+      {
+        "name": "System.BoardColumnDone",
+        "ignore": true
+      },
+      {
+        "name": "System.ChangedBy",
+        "isUser": true
+      },
+      {
+        "name": "System.ClosedBy",
+        "isUser": true
+      },
+      {
+        "name": "System.CreatedBy",
+        "isUser": true
+      },
+      {
+        "name": "System.IterationId",
+        "ignore": true
+      },
+      {
+        "name": "System.IterationLevel1",
+        "ignore": true
+      },
+      {
+        "name": "System.IterationLevel2",
+        "ignore": true
+      },
+      {
+        "name": "System.NodeName",
+        "ignore": true
+      },
+      {
+        "name": "System.PersonId",
+        "ignore": true
+      },
+      {
+        "name": "System.ResolvedBy",
+        "isUser": true
+      },
+      {
+        "name": "System.Rev",
+        "ignore": true
+      },
+      {
+        "name": "System.TeamProject",
+        "ignore": true
+      },
+      {
+        "name": "System.Watermark",
+        "ignore": true
+      },
+
+      // Custom fields
+      {
+        // Create the legacy ID to store the original ID field
+        "name": "System.Id",
+        "targetName": "AgileProcessName.MyCompany_LegacyId"
+      },
+      {
+        "name": "SomeBooleanProperty",
+        "targetname": "AgileProcessName.MyCompany_NewBooleanProperty",
+        "value": "!Convert.ToBoolean(value)"
+      }
+    ],
+
+    // When set to true, the given link types (and work items) will be included in migration when the owning work item
+    // is already closed
+    "includeRelatedLinksOnClosed": false,
+    "includeChildLinksOnClosed": false,
+    "includeParentLinksOnClosed": false,
+
+    // The tag to apply to migrated items
+    "migrationTag": "tfs-migration",
+
+    //The queries defining the work items to migrate
+    //  Name: The name of the query (i.e. Shared Queries/Query Name)
+    "queries": [
+      {
+        "name": "Shared Queries/_Migration/To Be Migrated"
+      }
+    ]
+  }
+}

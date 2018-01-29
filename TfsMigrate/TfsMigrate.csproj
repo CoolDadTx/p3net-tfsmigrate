@@ -1,0 +1,151 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{2E282C1D-2099-4EEF-AC51-4DA6A1CF9C39}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>TfsMigrate</RootNamespace>
+    <AssemblyName>TfsMigrate</AssemblyName>
+    <TargetFrameworkVersion>v4.7</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="CommandLine\CommandLineOptions.cs" />
+    <Compile Include="Diagnostics\CountingTarget.cs" />
+    <Compile Include="Diagnostics\LogManager.cs" />
+    <Compile Include="Hosting\ConsoleProcessorRunner.cs" />
+    <Compile Include="Hosting\HostSettings.cs" />
+    <Compile Include="Hosting\ProcessorHost.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Settings\ISettingsManager.cs" />
+    <Compile Include="Settings\JsonSettingsManager.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+    <Content Include="settings.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="NLog.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="template\.gitattributes">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="template\.gitignore">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="template\readme.md">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="TaskGroups\FSMB - Copy Files for NuGet Packaging.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="TaskGroups\FSMB - Create NuGet Packages.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="TaskGroups\FSMB - Publish Artifact to Server.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="TaskGroups\FSMB - Restore NuGet Packages.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="TaskGroups\FSMB - Test Assemblies.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="TaskGroups\FSMB - Visual Studio %28Per-Project%29.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="TaskGroups\FSMB - Visual Studio Build %28Flatten%29.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Fsmb.Apollo">
+      <Version>6.0.17244.5</Version>
+    </PackageReference>
+    <PackageReference Include="Fsmb.EnterpriseServices.Logging">
+      <Version>3.0.17083.3</Version>
+    </PackageReference>
+    <PackageReference Include="Fsmb.EnterpriseServices.Logging.Providers">
+      <Version>3.0.17083.3</Version>
+    </PackageReference>
+    <PackageReference Include="Newtonsoft.Json">
+      <Version>10.0.3</Version>
+    </PackageReference>
+    <PackageReference Include="NLog">
+      <Version>4.4.12</Version>
+    </PackageReference>
+    <PackageReference Include="Plossum.CommandLine">
+      <Version>0.3.0.14</Version>
+    </PackageReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\TfsMigrate.Processors.BuildManagement\TfsMigrate.Processors.BuildManagement.csproj">
+      <Project>{994deaa7-7dde-4972-baaa-60944cf50b7b}</Project>
+      <Name>TfsMigrate.Processors.BuildManagement</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TfsMigrate.Processors.PackageManagement\TfsMigrate.Processors.PackageManagement.csproj">
+      <Project>{b7f35d22-1b5e-4c3d-ae13-05a302480592}</Project>
+      <Name>TfsMigrate.Processors.PackageManagement</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TfsMigrate.Processors.QueryManagement\TfsMigrate.Processors.QueryManagement.csproj">
+      <Project>{9feb58e5-a339-41a1-8c09-0a09b96ee87a}</Project>
+      <Name>TfsMigrate.Processors.QueryManagement</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TfsMigrate.Processors.VersionControl\TfsMigrate.Processors.VersionControl.csproj">
+      <Project>{15F4B110-DB70-4671-B736-B13589446CCC}</Project>
+      <Name>TfsMigrate.Processors.VersionControl</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TfsMigrate.Core\TfsMigrate.Core.csproj">
+      <Project>{97A7930B-B98F-4CC3-A98B-AC3907F2155E}</Project>
+      <Name>TfsMigrate.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TfsMigrate.Processors.WorkItemTracking\TfsMigrate.Processors.WorkItemTracking.csproj">
+      <Project>{546f78fb-9739-4124-943a-a40c76c666f3}</Project>
+      <Name>TfsMigrate.Processors.WorkItemTracking</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>
+    </PostBuildEvent>
+  </PropertyGroup>
+</Project>
