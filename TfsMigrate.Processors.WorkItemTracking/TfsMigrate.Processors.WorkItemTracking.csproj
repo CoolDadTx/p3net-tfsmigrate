@@ -1,0 +1,85 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{546F78FB-9739-4124-943A-A40C76C666F3}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>TfsMigrate.Processors.WorkItemTracking</RootNamespace>
+    <AssemblyName>TfsMigrate.Processors.WorkItemTracking</AssemblyName>
+    <TargetFrameworkVersion>v4.7</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Dynamic" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Data\MigratedArea.cs" />
+    <Compile Include="Data\MigratedIteration.cs" />
+    <Compile Include="Data\MigratedWorkItem.cs" />
+    <Compile Include="Data\MigrationContext.cs" />
+    <Compile Include="FieldHandlers\UserFieldHandler.cs" />
+    <Compile Include="FieldHandlers\IgnoreFieldHandler.cs" />
+    <Compile Include="FieldHandlers\IterationFieldHandler.cs" />
+    <Compile Include="FieldHandlers\AreaFieldHandler.cs" />
+    <Compile Include="FieldHandlers\ValueFieldHandler.cs" />
+    <Compile Include="FieldHandlers\IFieldHandler.cs" />
+    <Compile Include="FieldHandlers\RenameFieldHandler.cs" />
+    <Compile Include="WorkItemTrackingProcessor.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="WorkItemTrackingSettings.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\TfsMigrate.Core\TfsMigrate.Core.csproj">
+      <Project>{97a7930b-b98f-4cc3-a98b-ac3907f2155e}</Project>
+      <Name>TfsMigrate.Core</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="DynamicQuery">
+      <Version>1.0.0</Version>
+    </PackageReference>
+    <PackageReference Include="Fsmb.Apollo">
+      <Version>6.0.17244.5</Version>
+    </PackageReference>
+    <PackageReference Include="Fsmb.EnterpriseServices.Logging">
+      <Version>3.0.17083.3</Version>
+    </PackageReference>
+    <PackageReference Include="Microsoft.TeamFoundationServer.Client">
+      <Version>15.112.1</Version>
+    </PackageReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

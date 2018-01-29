@@ -1,0 +1,88 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27130.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TfsMigrate", "TfsMigrate\TfsMigrate.csproj", "{2E282C1D-2099-4EEF-AC51-4DA6A1CF9C39}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TfsMigrate.Core", "TfsMigrate.Core\TfsMigrate.Core.csproj", "{97A7930B-B98F-4CC3-A98B-AC3907F2155E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TfsMigrate.Processors.VersionControl", "TfsMigrate.Processors.VersionControl\TfsMigrate.Processors.VersionControl.csproj", "{15F4B110-DB70-4671-B736-B13589446CCC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TfsMigrate.Processors.WorkItemTracking", "TfsMigrate.Processors.WorkItemTracking\TfsMigrate.Processors.WorkItemTracking.csproj", "{546F78FB-9739-4124-943A-A40C76C666F3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TfsMigrate.Processors.PackageManagement", "TfsMigrate.Processors.PackageManagement\TfsMigrate.Processors.PackageManagement.csproj", "{B7F35D22-1B5E-4C3D-AE13-05A302480592}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TfsMigrate.Processors.BuildManagement", "TfsMigrate.Processors.BuildManagement\TfsMigrate.Processors.BuildManagement.csproj", "{994DEAA7-7DDE-4972-BAAA-60944CF50B7B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TfsMigrate.Processors.QueryManagement", "TfsMigrate.Processors.QueryManagement\TfsMigrate.Processors.QueryManagement.csproj", "{9FEB58E5-A339-41A1-8C09-0A09B96EE87A}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{2E282C1D-2099-4EEF-AC51-4DA6A1CF9C39}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2E282C1D-2099-4EEF-AC51-4DA6A1CF9C39}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2E282C1D-2099-4EEF-AC51-4DA6A1CF9C39}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2E282C1D-2099-4EEF-AC51-4DA6A1CF9C39}.Release|Any CPU.Build.0 = Release|Any CPU
+		{97A7930B-B98F-4CC3-A98B-AC3907F2155E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{97A7930B-B98F-4CC3-A98B-AC3907F2155E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{97A7930B-B98F-4CC3-A98B-AC3907F2155E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{97A7930B-B98F-4CC3-A98B-AC3907F2155E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{15F4B110-DB70-4671-B736-B13589446CCC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{15F4B110-DB70-4671-B736-B13589446CCC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{15F4B110-DB70-4671-B736-B13589446CCC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{15F4B110-DB70-4671-B736-B13589446CCC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{546F78FB-9739-4124-943A-A40C76C666F3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{546F78FB-9739-4124-943A-A40C76C666F3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{546F78FB-9739-4124-943A-A40C76C666F3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{546F78FB-9739-4124-943A-A40C76C666F3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B7F35D22-1B5E-4C3D-AE13-05A302480592}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B7F35D22-1B5E-4C3D-AE13-05A302480592}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B7F35D22-1B5E-4C3D-AE13-05A302480592}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B7F35D22-1B5E-4C3D-AE13-05A302480592}.Release|Any CPU.Build.0 = Release|Any CPU
+		{994DEAA7-7DDE-4972-BAAA-60944CF50B7B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{994DEAA7-7DDE-4972-BAAA-60944CF50B7B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{994DEAA7-7DDE-4972-BAAA-60944CF50B7B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{994DEAA7-7DDE-4972-BAAA-60944CF50B7B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9FEB58E5-A339-41A1-8C09-0A09B96EE87A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9FEB58E5-A339-41A1-8C09-0A09B96EE87A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9FEB58E5-A339-41A1-8C09-0A09B96EE87A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9FEB58E5-A339-41A1-8C09-0A09B96EE87A}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {A3935C24-D127-41ED-BAA2-40998C5E9D5B}
+	EndGlobalSection
+	GlobalSection(TeamFoundationVersionControl) = preSolution
+		SccNumberOfProjects = 8
+		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccTeamFoundationServer = https://tfs.fsmb.org/defaultcollection
+		SccLocalPath0 = .
+		SccProjectUniqueName1 = TfsMigrate.Processors.VersionControl\\TfsMigrate.Processors.VersionControl.csproj
+		SccProjectName1 = TfsMigrate.Processors.VersionControl
+		SccLocalPath1 = TfsMigrate.Processors.VersionControl
+		SccProjectUniqueName2 = TfsMigrate\\TfsMigrate.csproj
+		SccProjectName2 = TfsMigrate
+		SccLocalPath2 = TfsMigrate
+		SccProjectUniqueName3 = TfsMigrate.Core\\TfsMigrate.Core.csproj
+		SccProjectName3 = TfsMigrate.Core
+		SccLocalPath3 = TfsMigrate.Core
+		SccProjectUniqueName4 = TfsMigrate.Processors.WorkItemTracking\\TfsMigrate.Processors.WorkItemTracking.csproj
+		SccProjectName4 = TfsMigrate.Processors.WorkItemTracking
+		SccLocalPath4 = TfsMigrate.Processors.WorkItemTracking
+		SccProjectUniqueName5 = TfsMigrate.Processors.PackageManagement\\TfsMigrate.Processors.PackageManagement.csproj
+		SccProjectName5 = TfsMigrate.Processors.PackageManagement
+		SccLocalPath5 = TfsMigrate.Processors.PackageManagement
+		SccProjectUniqueName6 = TfsMigrate.Processors.BuildManagement\\TfsMigrate.Processors.BuildManagement.csproj
+		SccProjectName6 = TfsMigrate.Processors.BuildManagement
+		SccLocalPath6 = TfsMigrate.Processors.BuildManagement
+		SccProjectUniqueName7 = TfsMigrate.Processors.QueryManagement\\TfsMigrate.Processors.QueryManagement.csproj
+		SccProjectName7 = TfsMigrate.Processors.QueryManagement
+		SccLocalPath7 = TfsMigrate.Processors.QueryManagement
+	EndGlobalSection
+EndGlobal
