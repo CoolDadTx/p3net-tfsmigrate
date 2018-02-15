@@ -4,8 +4,8 @@
  */
 using System;
 
-using Fsmb.Apollo;
-using Fsmb.Apollo.Diagnostics;
+using P3Net.Kraken;
+using P3Net.Kraken.Diagnostics;
 
 namespace TfsMigrate.WorkItemTracking
 {

@@ -4,9 +4,6 @@
  */
 using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
-
-using Fsmb.EnterpriseServices.Logging;
 
 namespace TfsMigrate.Diagnostics
 {

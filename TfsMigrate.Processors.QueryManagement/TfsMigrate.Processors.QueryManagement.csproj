@@ -57,14 +57,11 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Fsmb.Apollo">
-      <Version>6.0.17244.5</Version>
-    </PackageReference>
-    <PackageReference Include="Fsmb.EnterpriseServices.Logging">
-      <Version>3.0.17083.3</Version>
-    </PackageReference>
     <PackageReference Include="Microsoft.TeamFoundationServer.Client">
       <Version>15.112.1</Version>
+    </PackageReference>
+    <PackageReference Include="P3Net.Kraken">
+      <Version>5.0.0</Version>
     </PackageReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

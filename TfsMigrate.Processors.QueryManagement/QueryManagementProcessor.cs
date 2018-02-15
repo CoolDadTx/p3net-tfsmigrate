@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
-using Fsmb.Apollo;
+using P3Net.Kraken;
 
 using Microsoft.TeamFoundation.WorkItemTracking.WebApi.Models;
 

@@ -37,8 +37,8 @@
     //Maps task group Ids from source to target because the API does not expose this as an option yet
     "TaskGroups": [
       {        
-        "sourceGroupid": "10434ce0-8d5e-4447-97ec-906cebf605ca",
-        "targetGroupId": "28703595-4c96-4c0e-abd0-8216cd2aa528"
+        //"sourceGroupid": "10434ce0-8d5e-4447-97ec-906cebf605ca",
+        //"targetGroupId": "28703595-4c96-4c0e-abd0-8216cd2aa528"
       }
     ]
   },
@@ -170,10 +170,10 @@
 
     // Defines the mappings between the source user names and the target user names so that user fields are properly migrated
     "users": [
-      {
-        "source": "myad\myuser",
-        "target": "User Name <user@mydomain.com>"
-      }
+      //{
+      //  "source": "myad\\myuser",
+      //  "target": "User Name <user@mydomain.com>"
+      //}
     ],
 
     // If set to true (the default) then all fields are migrated unless ignored in the "fields" list below. If false then

@@ -49,7 +49,9 @@
   <ItemGroup>
     <Compile Include="CommandLine\CommandLineOptions.cs" />
     <Compile Include="Diagnostics\CountingTarget.cs" />
+    <Compile Include="Diagnostics\LogEventInfoExtensions.cs" />
     <Compile Include="Diagnostics\LogManager.cs" />
+    <Compile Include="Diagnostics\NLogLogger.cs" />
     <Compile Include="Hosting\ConsoleProcessorRunner.cs" />
     <Compile Include="Hosting\HostSettings.cs" />
     <Compile Include="Hosting\ProcessorHost.cs" />
@@ -66,52 +68,19 @@
     <Content Include="NLog.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="template\.gitattributes">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="template\.gitignore">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <Content Include="template\readme.md">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="TaskGroups\FSMB - Copy Files for NuGet Packaging.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="TaskGroups\FSMB - Create NuGet Packages.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="TaskGroups\FSMB - Publish Artifact to Server.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="TaskGroups\FSMB - Restore NuGet Packages.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="TaskGroups\FSMB - Test Assemblies.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="TaskGroups\FSMB - Visual Studio %28Per-Project%29.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="TaskGroups\FSMB - Visual Studio Build %28Flatten%29.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Fsmb.Apollo">
-      <Version>6.0.17244.5</Version>
-    </PackageReference>
-    <PackageReference Include="Fsmb.EnterpriseServices.Logging">
-      <Version>3.0.17083.3</Version>
-    </PackageReference>
-    <PackageReference Include="Fsmb.EnterpriseServices.Logging.Providers">
-      <Version>3.0.17083.3</Version>
-    </PackageReference>
     <PackageReference Include="Newtonsoft.Json">
       <Version>10.0.3</Version>
     </PackageReference>
     <PackageReference Include="NLog">
       <Version>4.4.12</Version>
+    </PackageReference>
+    <PackageReference Include="P3Net.Kraken">
+      <Version>5.0.0</Version>
     </PackageReference>
     <PackageReference Include="Plossum.CommandLine">
       <Version>0.3.0.14</Version>
@@ -142,6 +111,9 @@
       <Project>{546f78fb-9739-4124-943a-a40c76c666f3}</Project>
       <Name>TfsMigrate.Processors.WorkItemTracking</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="TaskGroups\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

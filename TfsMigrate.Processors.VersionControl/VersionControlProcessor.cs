@@ -9,7 +9,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-using Fsmb.Apollo.Text.Substitution;
+using P3Net.Kraken.Text.Substitution;
 
 using Microsoft.TeamFoundation.SourceControl.WebApi;
 

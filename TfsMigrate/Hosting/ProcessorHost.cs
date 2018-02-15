@@ -9,9 +9,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-using Fsmb.EnterpriseServices.Logging;
-
-using TfsMigrate.Processors;
+using TfsMigrate.Diagnostics;
 using TfsMigrate.Settings;
 
 namespace TfsMigrate.Hosting

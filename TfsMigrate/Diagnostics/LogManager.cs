@@ -9,7 +9,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-using Fsmb.EnterpriseServices.Logging;
 using NLog.Targets;
 using NLog.Targets.Wrappers;
 using TfsMigrate.IO;
@@ -22,7 +21,9 @@ namespace TfsMigrate.Diagnostics
 
         public static ILogger GetLogger ( string name )
         {
-            return new Fsmb.EnterpriseServices.Logging.Providers.NLog.NLogProvider().GetLogger(name);
+            var logger = NLog.LogManager.GetLogger(name);
+
+            return new NLogLogger(logger);
         }
 
         public static void AddFileLogger ( string filePath )

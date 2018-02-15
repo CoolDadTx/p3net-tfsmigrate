@@ -46,7 +46,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Diagnostics\ILogger.cs" />
+    <Compile Include="Diagnostics\LogEntryBuilder.cs" />
+    <Compile Include="Diagnostics\LogEntryInfo.cs" />
     <Compile Include="Diagnostics\Logger.cs" />
+    <Compile Include="Diagnostics\LoggerExtensions.cs" />
+    <Compile Include="Diagnostics\StackTraceExtensions.cs" />
     <Compile Include="DictionaryExtensions.cs" />
     <Compile Include="EnumerableExtensions.cs" />
     <Compile Include="Hosting\IHostSettings.cs" />
@@ -80,14 +85,11 @@
     <Compile Include="WorkItemTracking\WorkItemRelations.cs" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Fsmb.Apollo">
-      <Version>6.0.17244.5</Version>
-    </PackageReference>
-    <PackageReference Include="Fsmb.EnterpriseServices.Logging">
-      <Version>3.0.17083.3</Version>
-    </PackageReference>
     <PackageReference Include="Microsoft.TeamFoundationServer.Client">
       <Version>15.112.1</Version>
+    </PackageReference>
+    <PackageReference Include="P3Net.Kraken">
+      <Version>5.0.0</Version>
     </PackageReference>
   </ItemGroup>
   <ItemGroup>

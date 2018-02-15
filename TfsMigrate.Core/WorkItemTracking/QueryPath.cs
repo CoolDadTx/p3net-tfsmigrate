@@ -7,8 +7,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Fsmb.Apollo;
-using Fsmb.Apollo.Diagnostics;
+using P3Net.Kraken;
+using P3Net.Kraken.Diagnostics;
 
 namespace TfsMigrate.WorkItemTracking
 {
