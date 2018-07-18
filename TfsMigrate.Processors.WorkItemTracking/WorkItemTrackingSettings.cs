@@ -4,27 +4,24 @@
  */
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using TfsMigrate.WorkItemTracking;
 
 namespace TfsMigrate.Processors.WorkItemTracking
 {
     public class WorkItemTrackingSettings
     {
         public List<AreaSettings> Areas { get; set; } = new List<AreaSettings>();
-        
+
         public List<IterationSettings> Iterations { get; set; } = new List<IterationSettings>();
-        
+
         public bool IncludeAllFields { get; set; } = true;
 
         public List<FieldSettings> Fields { get; set; } = new List<FieldSettings>();
 
         public List<QuerySettings> Queries { get; set; } = new List<QuerySettings>();
-        
+
         public List<UserSettings> Users { get; set; } = new List<UserSettings>();
+
+        public TranslateSettings Translate { get; set; } = new TranslateSettings();
 
         public bool IncludeRelatedLinksOnClosed { get; set; }
         public bool IncludeChildLinksOnClosed { get; set; }
@@ -67,7 +64,7 @@ namespace TfsMigrate.Processors.WorkItemTracking
         public string Value { get; set; }
 
         public bool IsUser { get; set; }
-        
+
         public string Handler { get; set; }
     }
 
@@ -75,5 +72,44 @@ namespace TfsMigrate.Processors.WorkItemTracking
     {
         public string Source { get; set; }
         public string Target { get; set; }
-    }    
+    }
+
+    public class TypeSettings
+    {
+        public string Source { get; set; }
+
+        public string Target { get; set; }
+    }
+
+    public class StateSettings
+    {
+        public string Source { get; set; }
+
+        public string Target { get; set; }
+    }
+
+    public class RelationSettings
+    {
+        public string Source { get; set; }
+
+        public string Target { get; set; }
+    }
+
+    public class SeveritySettings
+    {
+        public string Source { get; set; }
+
+        public string Target { get; set; }
+    }
+
+    public class TranslateSettings
+    {
+        public List<TypeSettings> Types { get; set; }
+
+        public List<RelationSettings> Relations { get; set; }
+
+        public List<StateSettings> States { get; set; }
+
+        public List<SeveritySettings> Severity { get; set; }
+    }
 }

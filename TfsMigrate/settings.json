@@ -155,8 +155,8 @@
     "Areas": [
       {
         "SourcePath": "MyTfs/MyProject"
-		//"DestinationPath": "MyTfs/NewProject"
-      }      
+        //"DestinationPath": "MyTfs/NewProject"
+      }
     ],
 
     // The iterations to migrate
@@ -175,6 +175,141 @@
       //  "target": "User Name <user@mydomain.com>"
       //}
     ],
+
+    // Defines the translate between the target value obligatory in English (VSTS) and the source in original language (like French).
+    // If source is empty, no translate was apply.
+    "Translate": {
+      "Types": [
+        //{
+        //  "target": "Task",
+        //  "source": "Tâche"
+        //},
+        {
+          "target": "Task",
+          "source": ""
+        },
+        {
+          "target": "Code Review Request",
+          "source": ""
+        },
+        {
+          "target": "Code Review Response",
+          "source": ""
+        },
+        {
+          "target": "Bug",
+          "source": ""
+        },
+        {
+          "target": "Shared Steps",
+          "source": ""
+        },
+        {
+          "target": "Shared Parameter",
+          "source": ""
+        },
+        {
+          "target": "Epic",
+          "source": ""
+        },
+        {
+          "target": "Feature",
+          "source": ""
+        },
+        {
+          "target": "Feedback Request",
+          "source": ""
+        },
+        {
+          "target": "Feedback Response",
+          "source": ""
+        },
+        {
+          "target": "Product Backlog Item",
+          "source": ""
+        },
+        {
+          "target": "Impediment",
+          "source": ""
+        },
+        {
+          "target": "Test Plan",
+          "source": ""
+        },
+        {
+          "target": "Test Case",
+          "source": ""
+        },
+        {
+          "target": "Test Suite",
+          "source": ""
+        }
+      ],
+      "States": [
+        //{
+        //  "target": "To Do",
+        //  "source": "À faire"
+        //},
+        {
+          "target": "To Do",
+          "source": ""
+        },
+        {
+          "target": "In Progress",
+          "source": ""
+        },
+        {
+          "target": "Done",
+          "source": ""
+        },
+        {
+          "target": "Removed",
+          "source": ""
+        },
+        {
+          "target": "New",
+          "source": ""
+        },
+        {
+          "target": "Approved",
+          "source": ""
+        },
+        {
+          "target": "Committed",
+          "source": ""
+        },
+        {
+          "target": "Open",
+          "source": ""
+        },
+        {
+          "target": "Closed",
+          "source": ""
+        }
+      ],
+      "Severity": [
+        //{
+        //  "target": "1 - Critical",
+        //  "source": "1 - Critique"
+        //},
+        {
+          "target": "1 - Critical",
+          "source": ""
+        },
+        {
+          "target": "2 - High",
+          "source": ""
+        },
+        {
+          "target": "3 - Medium",
+          "source": ""
+        },
+        {
+          "target": "4 - Low",
+          "source": ""
+        }
+      ]
+    },
 
     // If set to true (the default) then all fields are migrated unless ignored in the "fields" list below. If false then
     // only the fields identified in "fields" below are included.
