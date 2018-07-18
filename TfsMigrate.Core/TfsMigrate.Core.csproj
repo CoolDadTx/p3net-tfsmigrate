@@ -65,6 +65,7 @@
     <Compile Include="Processors\Processor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Tfs\TfsServer.cs" />
+    <Compile Include="Tfs\VssBasicCredentialOverHttp.cs" />
     <Compile Include="WorkItemTracking\JsonPatchDocumentExtensions.cs" />
     <Compile Include="WorkItemTracking\QueryFolderClientExtensions.cs" />
     <Compile Include="WorkItemTracking\WorkItemClientExtensions.cs" />
