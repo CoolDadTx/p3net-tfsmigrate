@@ -7,12 +7,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-
-using P3Net.Kraken;
-
 using Microsoft.TeamFoundation.WorkItemTracking.WebApi.Models;
 using Microsoft.VisualStudio.Services.WebApi.Patch.Json;
-
+using P3Net.Kraken;
 using TfsMigrate.Data;
 using TfsMigrate.Diagnostics;
 using TfsMigrate.Processors.WorkItemTracking.Data;
@@ -24,16 +21,17 @@ namespace TfsMigrate.Processors.WorkItemTracking
 {
     public class WorkItemTrackingProcessor : Processor
     {
-        protected override async Task InitializeCoreAsync ( CancellationToken cancellationToken )
+        protected override async Task InitializeCoreAsync(CancellationToken cancellationToken)
         {
             await base.InitializeCoreAsync(cancellationToken).ConfigureAwait(false);
 
             Settings = await Host.GetSettingsAsync<WorkItemTrackingSettings>("WorkItemTracking", cancellationToken).ConfigureAwait(false) ?? new WorkItemTrackingSettings();
         }
 
-        protected override async Task RunCoreAsync ( CancellationToken cancellationToken )
+        protected override async Task RunCoreAsync(CancellationToken cancellationToken)
         {
-            var context = new MigrationContext() {
+            var context = new MigrationContext()
+            {
                 SourceServer = new TfsServer(Host.Settings.SourceCollectionUrl, Host.Settings.SourceAccessToken),
                 SourceProjectName = Host.Settings.SourceProject,
 
@@ -59,7 +57,7 @@ namespace TfsMigrate.Processors.WorkItemTracking
 
         #region Private Members
 
-        private async Task AddMigrationCommentAsync ( MigrationContext context, WorkItem sourceItem, WorkItem targetItem, CancellationToken cancellationToken )
+        private async Task AddMigrationCommentAsync(MigrationContext context, WorkItem sourceItem, WorkItem targetItem, CancellationToken cancellationToken)
         {
             var msg = $"<p>Migrated from TFS.</p><p>Old ID = {sourceItem.Id}</p><p>Old Url = {sourceItem.Url}</p>";
 
@@ -81,26 +79,27 @@ namespace TfsMigrate.Processors.WorkItemTracking
             await context.TargetService.UpdateWorkItemUnrestrictedAsync(targetItem, doc, cancellationToken).ConfigureAwait(false);
         }
 
-        private void AddToMigrationQueue ( Queue<MigratedWorkItem> queue, MigratedWorkItem item )
+        private void AddToMigrationQueue(Queue<MigratedWorkItem> queue, MigratedWorkItem item)
         {
             var existing = queue.FirstOrDefault(i => i.SourceId == item.SourceId);
             if (existing == null)
                 queue.Enqueue(item);
         }
 
-        private IFieldHandler CreateCustomHandler ( string typeName )
+        private IFieldHandler CreateCustomHandler(string typeName)
         {
             try
             {
                 var type = Type.GetType(typeName, true, true);
                 return Activator.CreateInstance(type) as IFieldHandler;
-            } catch (Exception e)
+            }
+            catch (Exception e)
             {
                 throw new Exception($"Failed to load custom type handler '{typeName}'", e);
             };
         }
 
-        private async Task<JsonPatchDocument> CreatePatchDocumentAsync ( MigrationContext context, WorkItemUpdate update, CancellationToken cancellationToken )
+        private async Task<JsonPatchDocument> CreatePatchDocumentAsync(MigrationContext context, WorkItemUpdate update, CancellationToken cancellationToken)
         {
             var doc = new JsonPatchDocument();
 
@@ -154,16 +153,18 @@ namespace TfsMigrate.Processors.WorkItemTracking
                             else
                                 doc.AddField(newField.Name, newField.Value);
                         };
-                    } else
+                    }
+                    else
                         Logger.Debug($"{field.Key} is marked as ignore");
-                } else
+                }
+                else
                     Logger.Debug($"{field.Key} has no handlers, skipping");
             };
 
             return doc;
         }
 
-        private async Task<Queue<MigratedWorkItem>> GetWorkItemsAsync ( MigrationContext context, CancellationToken cancellationToken )
+        private async Task<Queue<MigratedWorkItem>> GetWorkItemsAsync(MigrationContext context, CancellationToken cancellationToken)
         {
             var queue = new Queue<MigratedWorkItem>();
 
@@ -179,7 +180,8 @@ namespace TfsMigrate.Processors.WorkItemTracking
                     var results = await QueryWorkItemsAsync(context, query, cancellationToken).ConfigureAwait(false);
                     foreach (var result in results)
                         AddToMigrationQueue(queue, result);
-                } catch (Exception e)
+                }
+                catch (Exception e)
                 {
                     Logger.Error(e);
                 };
@@ -189,7 +191,7 @@ namespace TfsMigrate.Processors.WorkItemTracking
             return queue;
         }
 
-        private void InitializeFieldHandlers ( MigrationContext context )
+        private void InitializeFieldHandlers(MigrationContext context)
         {
             foreach (var fieldSetting in Settings.Fields)
             {
@@ -218,17 +220,18 @@ namespace TfsMigrate.Processors.WorkItemTracking
 
                         if (handler is AreaFieldHandler areaHandler)
                         {
-                            areaHandler.OnMigrateAsync = ( a, ct ) => MigrateAreaAsync(context, new AreaSettings() { SourcePath = a }, ct);
-                        } else if (handler is IterationFieldHandler iterationHandler)
+                            areaHandler.OnMigrateAsync = (a, ct) => MigrateAreaAsync(context, new AreaSettings() { SourcePath = a }, ct);
+                        }
+                        else if (handler is IterationFieldHandler iterationHandler)
                         {
-                            iterationHandler.OnMigrateAsync = ( name, ct ) => MigrateIterationAsync(context, new IterationSettings() { SourcePath = name }, ct);
+                            iterationHandler.OnMigrateAsync = (name, ct) => MigrateIterationAsync(context, new IterationSettings() { SourcePath = name }, ct);
                         };
                     };
                 };
             };
         }
 
-        private Task LoadUsersAsync ( MigrationContext context, IEnumerable<UserSettings> users, CancellationToken cancellationToken )
+        private Task LoadUsersAsync(MigrationContext context, IEnumerable<UserSettings> users, CancellationToken cancellationToken)
         {
             foreach (var user in users)
             {
@@ -239,7 +242,7 @@ namespace TfsMigrate.Processors.WorkItemTracking
             return Task.CompletedTask;
         }
 
-        private async Task MigrateAreasAsync ( MigrationContext context, CancellationToken cancellationToken )
+        private async Task MigrateAreasAsync(MigrationContext context, CancellationToken cancellationToken)
         {
             Logger.StartActivity($"Migrating {Settings.Areas.Count} Areas");
             using (var logger = Logger.BeginScope("MigrateAreas"))
@@ -255,11 +258,12 @@ namespace TfsMigrate.Processors.WorkItemTracking
             Logger.StopActivity($"Migrated Areas: {context.MigratedAreas.Succeeded()} Succeeded, {context.MigratedAreas.Skipped()} Skipped, {context.MigratedAreas.Errors()} Failed");
         }
 
-        private async Task<MigratedArea> MigrateAreaAsync ( MigrationContext context, AreaSettings area, CancellationToken cancellationToken )
+        private async Task<MigratedArea> MigrateAreaAsync(MigrationContext context, AreaSettings area, CancellationToken cancellationToken)
         {
             Logger.StartActivity($"Migrating area '{area.SourcePath}' to '{area.ActualDestinationPath}'");
 
-            var migratedArea = new MigratedArea() {
+            var migratedArea = new MigratedArea()
+            {
                 SourcePath = new NodePath(area.SourcePath),
                 TargetPath = new NodePath(area.ActualDestinationPath),
             };
@@ -288,7 +292,8 @@ namespace TfsMigrate.Processors.WorkItemTracking
                 };
 
                 Logger.StopActivity($"Migrated area '{migratedArea.SourcePath}' - Id {migratedArea.TargetId}");
-            } catch (Exception e)
+            }
+            catch (Exception e)
             {
                 migratedArea.Error = e;
                 Logger.Error(e);
@@ -297,7 +302,7 @@ namespace TfsMigrate.Processors.WorkItemTracking
             return migratedArea;
         }
 
-        private async Task MigrateIterationsAsync ( MigrationContext context, CancellationToken cancellationToken )
+        private async Task MigrateIterationsAsync(MigrationContext context, CancellationToken cancellationToken)
         {
             Logger.StartActivity($"Migrating {Settings.Iterations.Count} Iterations");
             using (var logger = Logger.BeginScope("MigrateIterations"))
@@ -314,11 +319,12 @@ namespace TfsMigrate.Processors.WorkItemTracking
             Logger.StopActivity($"Migrated Iterations: {context.MigratedIterations.Succeeded()} Succeeded, {context.MigratedIterations.Skipped()} Skipped, {context.MigratedIterations.Errors()} Failed");
         }
 
-        private async Task<MigratedIteration> MigrateIterationAsync ( MigrationContext context, IterationSettings iteration, CancellationToken cancellationToken )
+        private async Task<MigratedIteration> MigrateIterationAsync(MigrationContext context, IterationSettings iteration, CancellationToken cancellationToken)
         {
             Logger.StartActivity($"Migrating iteration '{iteration.SourcePath}' to {iteration.ActualDestinationPath}'");
 
-            var migratedIteration = new MigratedIteration() {
+            var migratedIteration = new MigratedIteration()
+            {
                 SourcePath = new NodePath(iteration.SourcePath),
                 TargetPath = new NodePath(iteration.ActualDestinationPath),
             };
@@ -356,7 +362,8 @@ namespace TfsMigrate.Processors.WorkItemTracking
                 };
 
                 Logger.StopActivity($"Migrated iteration '{migratedIteration.TargetPath}' - Id {migratedIteration.TargetId}");
-            } catch (Exception e)
+            }
+            catch (Exception e)
             {
                 migratedIteration.Error = e;
                 Logger.Error(e);
@@ -365,8 +372,8 @@ namespace TfsMigrate.Processors.WorkItemTracking
             return migratedIteration;
         }
 
-        private async Task<WorkItem> MigrateWorkItemAsync ( MigrationContext context, MigratedWorkItem item, CancellationToken cancellationToken )
-        {            
+        private async Task<WorkItem> MigrateWorkItemAsync(MigrationContext context, MigratedWorkItem item, CancellationToken cancellationToken)
+        {
             using (var logger = Logger.BeginScope("MigrateWorkItem"))
             {
                 //Get the work item
@@ -381,7 +388,7 @@ namespace TfsMigrate.Processors.WorkItemTracking
                 // Migrate the history
                 item.Target = await MigrateWorkItemHistoryAsync(context, sourceItem, cancellationToken).ConfigureAwait(false);
                 cancellationToken.ThrowIfCancellationRequested();
-                
+
                 // Process the attachments - ignoring
 
                 // Migrate the relationships 
@@ -395,7 +402,7 @@ namespace TfsMigrate.Processors.WorkItemTracking
             };
         }
 
-        private async Task MigrateWorkItemsAsync ( MigrationContext context, CancellationToken cancellationToken )
+        private async Task MigrateWorkItemsAsync(MigrationContext context, CancellationToken cancellationToken)
         {
             Logger.StartActivity($"Migrating work items");
             using (var logger = Logger.BeginScope("MigrateWorkItems"))
@@ -420,7 +427,8 @@ namespace TfsMigrate.Processors.WorkItemTracking
 
                         Logger.StartActivity($"Migrating work item '{item.SourceId}' (Remaining = {queue.Count})");
                         await MigrateWorkItemAsync(context, item, cancellationToken).ConfigureAwait(false);
-                    } catch (Exception e)
+                    }
+                    catch (Exception e)
                     {
                         Logger.Error(e);
                         item.Error = e;
@@ -431,7 +439,7 @@ namespace TfsMigrate.Processors.WorkItemTracking
             Logger.StopActivity($"Work Items: {context.MigratedWorkItems.Succeeded()} Succeeded, {context.MigratedWorkItems.Errors()} Failed, {context.MigratedWorkItems.Count} Total");
         }
 
-        private async Task MigrateWorkItemRelationsAsync ( MigrationContext context, IEnumerable<WorkItemRelation> relations, WorkItem targetItem, CancellationToken cancellationToken )
+        private async Task MigrateWorkItemRelationsAsync(MigrationContext context, IEnumerable<WorkItemRelation> relations, WorkItem targetItem, CancellationToken cancellationToken)
         {
             var doc = new JsonPatchDocument();
 
@@ -451,7 +459,7 @@ namespace TfsMigrate.Processors.WorkItemTracking
                     continue;
 
                 var related = context.GetMigratedWorkItem(relatedId);
-                
+
                 if (isChild)
                 {
                     //If the child has been migrated then add a child link to the related item
@@ -462,14 +470,17 @@ namespace TfsMigrate.Processors.WorkItemTracking
                         {
                             Logger.Debug($"Adding Child link to {related.TargetId}");
                             doc.AddLink(WorkItemRelations.Child, related.TargetUrl);
-                        } else
+                        }
+                        else
                             Logger.Warning($"Skipping Child link to {related.SourceId} because it failed to migrate");
-                    } else if (!targetItem.IsClosed() || Settings.IncludeChildLinksOnClosed)
+                    }
+                    else if (!targetItem.IsClosed() || Settings.IncludeChildLinksOnClosed)
                     {
                         Logger.Debug($"Adding Child link {relatedId} to migration list");
                         AddToMigrationQueue(context.MigrationQueue, new MigratedWorkItem() { SourceId = relatedId });
                     };
-                } else if (isParent)
+                }
+                else if (isParent)
                 {
                     //If the parent has already been migrated then add a parent link to the related item
                     if (related != null)
@@ -478,14 +489,17 @@ namespace TfsMigrate.Processors.WorkItemTracking
                         {
                             Logger.Debug($"Adding Parent link to {related.TargetId}");
                             doc.AddLink(WorkItemRelations.Parent, related.TargetUrl);
-                        } else
+                        }
+                        else
                             Logger.Warning($"Skipping Parent link to {related.SourceId} because it failed to migrate");
-                    } else if (!targetItem.IsClosed() || Settings.IncludeParentLinksOnClosed)
+                    }
+                    else if (!targetItem.IsClosed() || Settings.IncludeParentLinksOnClosed)
                     {
                         Logger.Debug($"Adding Parent link {relatedId} to migration list");
                         AddToMigrationQueue(context.MigrationQueue, new MigratedWorkItem() { SourceId = relatedId });
                     };
-                } else if (isRelated)
+                }
+                else if (isRelated)
                 {
                     //If the related item has already been migrated then add a related link to it
                     //else if the target is not closed (or the override setting is set) then add the related item to the migration list
@@ -495,9 +509,11 @@ namespace TfsMigrate.Processors.WorkItemTracking
                         {
                             Logger.Debug($"Adding Related link to {related.TargetId}");
                             doc.AddLink(WorkItemRelations.Related, related.TargetUrl);
-                        } else
+                        }
+                        else
                             Logger.Warning($"Skipping Related link to {related.SourceId} because it failed to migrate");
-                    } else if (!targetItem.IsClosed() || Settings.IncludeRelatedLinksOnClosed)
+                    }
+                    else if (!targetItem.IsClosed() || Settings.IncludeRelatedLinksOnClosed)
                     {
                         Logger.Debug($"Adding Related link {relatedId} to migration list");
                         AddToMigrationQueue(context.MigrationQueue, new MigratedWorkItem() { SourceId = relatedId });
@@ -512,10 +528,10 @@ namespace TfsMigrate.Processors.WorkItemTracking
                 await context.TargetService.UpdateWorkItemUnrestrictedAsync(targetItem, doc, cancellationToken).ConfigureAwait(false);
         }
 
-        private async Task<WorkItem> MigrateWorkItemHistoryAsync ( MigrationContext context, WorkItem sourceItem, CancellationToken cancellationToken )
+        private async Task<WorkItem> MigrateWorkItemHistoryAsync(MigrationContext context, WorkItem sourceItem, CancellationToken cancellationToken)
         {
             WorkItem item = null;
-            
+
             var entries = await context.SourceService.GetWorkItemHistoryAsync(sourceItem.Id.Value, cancellationToken).ConfigureAwait(false);
 
             //Now migrate the remaining history            
@@ -531,21 +547,23 @@ namespace TfsMigrate.Processors.WorkItemTracking
 
                     //Create or update the item                
                     if (item == null)
-                    {                        
+                    {
                         var teamProject = await context.GetTargetProjectAsync(cancellationToken).ConfigureAwait(false);
                         cancellationToken.ThrowIfCancellationRequested();
 
-                        item = await context.TargetService.CreateWorkItemUnrestrictedAsync(teamProject, doc, sourceItem.GetWorkItemType(), cancellationToken).ConfigureAwait(false);
-                    } else
+                        var workItemType = doc.FirstOrDefault(x => x.Path.Contains(WorkItemFields.WorkItemType)).Value.ToString() ?? sourceItem.GetWorkItemType();
+                        item = await context.TargetService.CreateWorkItemUnrestrictedAsync(teamProject, doc, workItemType, cancellationToken).ConfigureAwait(false);
+                    }
+                    else
                         item = await context.TargetService.UpdateWorkItemUnrestrictedAsync(item, doc, cancellationToken).ConfigureAwait(false);
                 };
-            };            
+            };
 
             return item;
         }
 
-        private async Task<IEnumerable<MigratedWorkItem>> QueryWorkItemsAsync ( MigrationContext context, QuerySettings query, CancellationToken cancellationToken )
-        {            
+        private async Task<IEnumerable<MigratedWorkItem>> QueryWorkItemsAsync(MigrationContext context, QuerySettings query, CancellationToken cancellationToken)
+        {
             //Execute the query on the source server to get the WIs and their children
             var sourceProject = await context.GetSourceProjectAsync(cancellationToken).ConfigureAwait(false);
 

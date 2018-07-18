@@ -2,12 +2,6 @@
  * Copyright © 2018 Federation of State Medical Boards
  * All Rights Reserved
  */
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using P3Net.Kraken;
 
 namespace TfsMigrate.WorkItemTracking
 {
@@ -32,5 +26,7 @@ namespace TfsMigrate.WorkItemTracking
         public const string Title = "System.Title";
 
         public const string WorkItemType = "System.WorkItemType";
+
+        public const string Severity = "Microsoft.VSTS.Common.Severity";
     }
 }

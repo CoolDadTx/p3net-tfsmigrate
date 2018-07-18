@@ -50,6 +50,7 @@
     <Compile Include="Data\MigratedIteration.cs" />
     <Compile Include="Data\MigratedWorkItem.cs" />
     <Compile Include="Data\MigrationContext.cs" />
+    <Compile Include="FieldHandlers\TranslateFieldHandler.cs" />
     <Compile Include="FieldHandlers\UserFieldHandler.cs" />
     <Compile Include="FieldHandlers\IgnoreFieldHandler.cs" />
     <Compile Include="FieldHandlers\IterationFieldHandler.cs" />
