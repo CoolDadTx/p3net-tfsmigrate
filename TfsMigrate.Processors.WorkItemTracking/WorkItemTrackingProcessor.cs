@@ -93,8 +93,7 @@ namespace TfsMigrate.Processors.WorkItemTracking
             {
                 var type = Type.GetType(typeName, true, true);
                 return Activator.CreateInstance(type) as IFieldHandler;
-            }
-            catch (Exception e)
+            } catch (Exception e)
             {
                 throw new Exception($"Failed to load custom type handler '{typeName}'", e);
             };
@@ -391,7 +390,7 @@ namespace TfsMigrate.Processors.WorkItemTracking
                     await MigrateWorkItemRelationsAsync(context, sourceItem.Relations, item.Target, cancellationToken).ConfigureAwait(false);
 
                 // Migrate attachement files
-                if (sourceItem.Relations.HasAny(r => r.IsAttachment()))
+                if (sourceItem.Relations.HasAny(r => r.IsAttachment()) && Settings.IncludeAttachmentFiles)
                     await MigrateWorkItemAttachmentAsync(context, sourceItem.Relations, item.Target, cancellationToken).ConfigureAwait(false);
 
                 // Add note about migration into history
@@ -578,8 +577,7 @@ namespace TfsMigrate.Processors.WorkItemTracking
 
                         var workItemType = doc.FirstOrDefault(x => x.Path.Contains(WorkItemFields.WorkItemType)).Value.ToString() ?? sourceItem.GetWorkItemType();
                         item = await context.TargetService.CreateWorkItemUnrestrictedAsync(teamProject, doc, workItemType, cancellationToken).ConfigureAwait(false);
-                    }
-                    else
+                    } else
                         item = await context.TargetService.UpdateWorkItemUnrestrictedAsync(item, doc, cancellationToken).ConfigureAwait(false);
                 };
             };
