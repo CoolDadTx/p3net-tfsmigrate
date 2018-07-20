@@ -428,6 +428,9 @@
     "includeChildLinksOnClosed": false,
     "includeParentLinksOnClosed": false,
 
+    // When set to true, the attachment files of work items will be included in migration
+    "includeAttachmentFiles": true,
+
     // The tag to apply to migrated items
     "migrationTag": "tfs-migration",
 

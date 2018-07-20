@@ -26,6 +26,7 @@ namespace TfsMigrate.Processors.WorkItemTracking
         public bool IncludeRelatedLinksOnClosed { get; set; }
         public bool IncludeChildLinksOnClosed { get; set; }
         public bool IncludeParentLinksOnClosed { get; set; }
+        public bool IncludeAttachmentFiles { get; set; }
 
         public string MigrationTag { get; set; }
     }
