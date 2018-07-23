@@ -15,5 +15,9 @@ namespace TfsMigrate.WorkItemTracking
         public const string Related = "System.LinkTypes.Related";
 
         public const string Attachment = "AttachedFile";
+
+        public const string ArtefactLink = "ArtifactLink";
+
+        public const string ArtefactLinkName_GitCommit = "Fixed in Commit";
     }
 }

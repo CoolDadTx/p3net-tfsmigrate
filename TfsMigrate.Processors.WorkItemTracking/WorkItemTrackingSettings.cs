@@ -23,10 +23,13 @@ namespace TfsMigrate.Processors.WorkItemTracking
 
         public TranslateSettings Translate { get; set; } = new TranslateSettings();
 
+        public List<RepositorySettings> Repositories { get; set; } = new List<RepositorySettings>();
+
         public bool IncludeRelatedLinksOnClosed { get; set; }
         public bool IncludeChildLinksOnClosed { get; set; }
         public bool IncludeParentLinksOnClosed { get; set; }
         public bool IncludeAttachmentFiles { get; set; }
+        public bool IncludeGitCommit { get; set; }
 
         public string MigrationTag { get; set; }
     }
@@ -112,5 +115,12 @@ namespace TfsMigrate.Processors.WorkItemTracking
         public List<StateSettings> States { get; set; }
 
         public List<SeveritySettings> Severity { get; set; }
+    }
+
+    public class RepositorySettings
+    {
+        public string Source { get; set; }
+
+        public string Target { get; set; }
     }
 }
