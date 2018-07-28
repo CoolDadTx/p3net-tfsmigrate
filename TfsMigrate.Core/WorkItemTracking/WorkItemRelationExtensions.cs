@@ -78,5 +78,12 @@ namespace TfsMigrate.WorkItemTracking
         /// <param name="source">The source.</param>
         /// <returns><see langword="true"/> if the relationship matches or <see langword="false"/> otherwise.</returns>
         public static bool IsAttachment( this WorkItemRelation source ) => String.Compare(source.Rel ?? "", WorkItemRelations.Attachment, true) == 0;
+
+        /// <summary>Determines if this is a GitCommit relation.</summary>
+        /// <param name="source">The source.</param>
+        /// <returns><see langword="true"/> if the relationship matches or <see langword="false"/> otherwise.</returns>
+        public static bool IsGitCommit( this WorkItemRelation source ) =>
+            (String.Compare(source.Rel ?? "", WorkItemRelations.ArtefactLink, true) == 0) &&
+            (String.Compare(source.Attributes.ContainsKey("name") ? source.Attributes["name"].ToString() : "", WorkItemRelations.ArtefactLinkName_GitCommit, true) == 0);
     }
 }

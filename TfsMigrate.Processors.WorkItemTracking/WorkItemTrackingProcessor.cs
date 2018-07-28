@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.TeamFoundation.WorkItemTracking.WebApi.Models;
@@ -383,8 +384,6 @@ namespace TfsMigrate.Processors.WorkItemTracking
                 item.Target = await MigrateWorkItemHistoryAsync(context, sourceItem, cancellationToken).ConfigureAwait(false);
                 cancellationToken.ThrowIfCancellationRequested();
 
-                // Process the attachments - ignoring
-
                 // Migrate the relationships 
                 if (sourceItem.Relations.HasAny())
                     await MigrateWorkItemRelationsAsync(context, sourceItem.Relations, item.Target, cancellationToken).ConfigureAwait(false);
@@ -392,6 +391,10 @@ namespace TfsMigrate.Processors.WorkItemTracking
                 // Migrate attachement files
                 if (sourceItem.Relations.HasAny(r => r.IsAttachment()) && Settings.IncludeAttachmentFiles)
                     await MigrateWorkItemAttachmentAsync(context, sourceItem.Relations, item.Target, cancellationToken).ConfigureAwait(false);
+
+                // Migrate GitCommit link
+                if (sourceItem.Relations.HasAny(r => r.IsGitCommit()) && Settings.IncludeGitCommit)
+                    await MigrateWorkItemGitCommitLinkAsync(context, sourceItem.Relations, item.Target, cancellationToken).ConfigureAwait(false);
 
                 // Add note about migration into history
                 await AddMigrationCommentAsync(context, sourceItem, item.Target, cancellationToken).ConfigureAwait(false);
@@ -544,6 +547,41 @@ namespace TfsMigrate.Processors.WorkItemTracking
 
                     Logger.Debug($"Adding Attachment file {fileName}");
                     doc.AddLink(new WorkItemRelation { Attributes = attributs, Rel = WorkItemRelations.Attachment, Url = attachmentReference.Url });
+                }
+            }
+
+            //If we have made any changes then update the target
+            if (doc.Any())
+                await context.TargetService.UpdateWorkItemUnrestrictedAsync(targetItem, doc, cancellationToken).ConfigureAwait(false);
+        }
+
+        private async Task MigrateWorkItemGitCommitLinkAsync( MigrationContext context, IEnumerable<WorkItemRelation> relations, WorkItem targetItem, CancellationToken cancellationToken )
+        {
+            var doc = new JsonPatchDocument();
+            var targetRepositories = Settings.Repositories.ToDictionary(x => x.Source, x => x.Target);
+            Regex regexSplitGitUrl = new Regex(@"^vstfs:\/\/\/git\/commit\/(?<projectId>[0-9a-f]{8}(?:-[0-9a-f]{4}){3}-[0-9a-f]{12})\/(?<repositoryId>[0-9a-f]{8}(?:-[0-9a-f]{4}){3}-[0-9a-f]{12})\/(?<commitId>[a-f0-9]{40})$", RegexOptions.IgnoreCase);
+
+            var sourceGitCommitRelations = relations.Where(r => r.IsGitCommit());
+
+            foreach (var sourceGitCommit in sourceGitCommitRelations)
+            {
+                var gitCommitUrl = Uri.UnescapeDataString(sourceGitCommit.Url);
+                var match = regexSplitGitUrl.Match(gitCommitUrl);
+
+                if (match.Success && targetRepositories.TryGetValue(match.Groups["repositoryId"].Value, out string targetRepositoryId))
+                {
+                    var targetProject = await context.GetTargetProjectAsync(cancellationToken);
+
+                    var targetgitCommitUrl = regexSplitGitUrl.Replace(gitCommitUrl, m => $"Vstfs:///Git/Commit/{targetProject.Id}/{targetRepositoryId}/{m.Groups["commitId"].Value}");
+                    WorkItemRelation targetGitCommit = new WorkItemRelation
+                    {
+                        Rel = sourceGitCommit.Rel,
+                        Attributes = sourceGitCommit.Attributes,
+                        Url = targetgitCommitUrl
+                    };
+
+                    Logger.Debug($"Adding Git commit link {targetgitCommitUrl}");
+                    doc.AddLink(targetGitCommit);
                 }
             }
 

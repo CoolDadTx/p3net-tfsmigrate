@@ -431,6 +431,16 @@
     // When set to true, the attachment files of work items will be included in migration
     "includeAttachmentFiles": true,
 
+    // When set to true, the Git commit linked to work items will be included in migration
+    "includeGitCommit": true,
+    // If Git commit is included to migration, defines the mappings between source repository id and target repository id.
+    "repositories": [
+      {
+        "source": "0082b728-cf7b-4268-ab26-c02a59a280ad",
+        "target": "1d0f3a14-cb5f-4af6-a713-72de0dcfc055"
+      }
+    ],
+
     // The tag to apply to migrated items
     "migrationTag": "tfs-migration",
 
