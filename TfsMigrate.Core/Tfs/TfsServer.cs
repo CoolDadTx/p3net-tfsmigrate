@@ -4,15 +4,11 @@
  */
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-
-using TfsMigrate.Diagnostics;
-
-using Microsoft.VisualStudio.Services.Common;
-using Microsoft.VisualStudio.Services.WebApi;
 using Microsoft.TeamFoundation.Core.WebApi;
+using Microsoft.VisualStudio.Services.WebApi;
+using TfsMigrate.Diagnostics;
 
 namespace TfsMigrate.Tfs
 {
@@ -20,7 +16,7 @@ namespace TfsMigrate.Tfs
     {
         #region construction
 
-        public TfsServer ( string url, string accessToken )
+        public TfsServer(string url, string accessToken)
         {
             _uri = new Uri(url);
             _accessToken = accessToken;
@@ -29,7 +25,7 @@ namespace TfsMigrate.Tfs
         }
         #endregion        
 
-        public T GetClient<T> () where T : VssHttpClientBase
+        public T GetClient<T>() where T : VssHttpClientBase
         {
             if (_clients.TryGetValue(typeof(T), out var client))
                 return (T)client;
@@ -40,7 +36,7 @@ namespace TfsMigrate.Tfs
             return instance;
         }
 
-        public async Task<TeamProject> FindProjectAsync ( string projectName, CancellationToken cancellationToken )
+        public async Task<TeamProject> FindProjectAsync(string projectName, CancellationToken cancellationToken)
         {
             var project = await Task.Run(() => ProjectClient.GetProject(projectName)).ConfigureAwait(false);
             if (project != null && project.Id != Guid.Empty)
@@ -53,23 +49,23 @@ namespace TfsMigrate.Tfs
 
             return project;
         }
-        
+
         #region Private Members
 
         private VssConnection Connection => _connection.Value;
 
         private ProjectHttpClient ProjectClient => GetClient<ProjectHttpClient>();
 
-        private VssConnection CreateConnection ()
+        private VssConnection CreateConnection()
         {
-            var credentials = new VssBasicCredential("", _accessToken);
+            var credentials = new VssBasicCredentialOverHttp("", _accessToken);
 
             Logger.Debug($"Creating connection: Uri = '{_uri}'");
             var conn = new VssConnection(_uri, credentials);
             Logger.Debug($"Created connection: Uri = '{_uri}'");
 
             return conn;
-        }        
+        }
 
         private readonly Uri _uri;
         private readonly string _accessToken;
